@@ -20,3 +20,8 @@ class PhotoCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class SinglePhotoView(generics.RetrieveAPIView):
+    permission_classes = [permissions.AllowAny]
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
