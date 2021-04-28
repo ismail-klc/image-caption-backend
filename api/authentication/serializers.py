@@ -14,6 +14,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         return token
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email','username', 'id')
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
