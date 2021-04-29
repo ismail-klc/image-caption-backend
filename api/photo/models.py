@@ -7,6 +7,10 @@ class Photo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="photos",default=None)
     caption = models.CharField(max_length=100)
     image = models.ImageField(upload_to='images/')
+    created_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.caption

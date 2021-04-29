@@ -13,6 +13,14 @@ class PhotoListView(APIView):
         serializer = PhotoSerializer(photos, many=True)
         return Response(serializer.data)
 
+class PhotoUploadedView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        photos = Photo.objects.all().filter(user=request.user.id)
+        serializer = PhotoSerializer(photos, many=True)
+        return Response(serializer.data)
+
 class PhotoCreateView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = PhotoSerializer
