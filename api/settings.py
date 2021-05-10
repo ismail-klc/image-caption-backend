@@ -27,7 +27,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["image-caption-back.herokuapp.com", "https://image-caption-frontend.vercel.app/"]
+ALLOWED_HOSTS = ["image-caption-back.herokuapp.com", "https://image-caption-frontend.vercel.app"]
 
 
 # Application definition
@@ -58,11 +58,11 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',"https://image-caption-frontend.vercel.app/"
+    'http://localhost:3000',"https://image-caption-frontend.vercel.app"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',"https://image-caption-frontend.vercel.app/"
+    'http://localhost:3000',"https://image-caption-frontend.vercel.app"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
