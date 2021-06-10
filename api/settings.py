@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from datetime import timedelta
+import os
+from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,14 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-from decouple import config
 
-SECRET_KEY = config("SECRET_KEY") 
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["image-caption-back.herokuapp.com", "https://image-caption-frontend.vercel.app"]
+ALLOWED_HOSTS = ["image-caption-back.herokuapp.com",
+                 "https://image-caption-frontend.vercel.app", '127.0.0.1']
 
 
 # Application definition
@@ -58,11 +61,11 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',"https://image-caption-frontend.vercel.app"
+    'http://localhost:3000', "https://image-caption-frontend.vercel.app"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',"https://image-caption-frontend.vercel.app"
+    'http://localhost:3000', "https://image-caption-frontend.vercel.app"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -91,22 +94,22 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'image_caption_db', 
-#         'USER': config("DB_USER") , 
-#         'PASSWORD': config("DB_PASSWORD") ,
-#         'HOST': '127.0.0.1', 
-#         'PORT': '5432',
-#     }
-# }
-
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES = { 
-    'default': dj_database_url.config(conn_max_age=600) 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'image_caption_db',
+        'USER': config("DB_USER"),
+        'PASSWORD': config("DB_PASSWORD"),
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
+}
+
+# import dj_database_url
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES = {
+#     'default': dj_database_url.config(conn_max_age=600)
+#     }
 
 
 # Password validation
@@ -144,7 +147,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-import os
 STATIC_URL = '/static/'
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
@@ -161,12 +163,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
 }
 
-from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=10),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
     'ROTATE_REFRESH_TOKENS': True,
 }
